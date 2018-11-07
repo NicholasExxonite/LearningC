@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h> 
+int main()
+{
+	int firstnumber, secondnumber, input;
+	srand(time(NULL));
+	//firstnumber = rand() % 10;
+	//scanf("%d", &input);
+	int loopnumber = 1;
+	while(loopnumber){
+		firstnumber = rand() % 10;
+		printf("Higher(type 1) or lower(type 0) than a: %d\n", firstnumber); 
+		secondnumber =rand() % 10;
+		scanf("%d", &input);
+
+		if(input > 1 || input < 0)
+		{
+			printf("please input 1 or 0\n");
+			continue;
+		}	
+		if (firstnumber == secondnumber)
+		{
+			printf("game over, the numbers were the same: %d and %d\n", firstnumber, 				secondnumber);
+			break;
+		}
+		if (input = 1 || secondnumber < firstnumber)
+		{
+			printf("game over, the number was: %d\n", secondnumber);
+			break;
+		}
+		else if (input = 0 || secondnumber > firstnumber)
+		{
+			printf("game over, the number was: %d\n", secondnumber);
+			break;
+		}
+		else if (input = 1 || secondnumber < firstnumber)
+		{
+			continue;
+		}
+		else if (input = 0 || secondnumber > firstnumber)
+		{
+			continue;
+		}
+	}	
+}
