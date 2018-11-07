@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+int main()
+{
+	int number, input;
+	srand(time(NULL));
+	//max = 2;
+	number = rand() % 10;
+
+	printf("choose a number between 1 and 10!\n");
+	//scanf("%d", &input);
+	int correctguess = 1;
+	while (correctguess)
+	{
+		scanf("%d", &input);
+		if (input == number)
+		{
+			printf("you got the number!\n");
+			break;
+		}
+                else if (input > 10 || input < 0)
+		{
+			printf("please enter a number between 0 and 10\n");
+			continue;
+
+		}
+		else if (input < number)
+		{
+			printf("go higher\n");
+			continue;
+
+		}
+		else if (input > number)
+		{
+			printf("go lower\n");
+			continue;
+
+		}
+
+
+	}
+}
