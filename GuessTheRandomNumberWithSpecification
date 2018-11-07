@@ -1,0 +1,49 @@
+//This is the guess the random number game with specifications (practicle week 5(test/quiz)):
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+int main()
+{
+	int number, input, beforein;
+	char lool;
+	//char input[2];
+	char beforeInput = '>';
+	srand(15);
+	//max = 2;
+	number = rand() % 10;
+
+	printf("I've thought of a number, try to guess it!\n");
+	//scanf("%d", &input);
+	int correctguess = 1;
+	while (correctguess)
+	{
+        printf("%c", beforeInput);
+		scanf("%d",&input);
+		if (input == number)
+		{
+			printf("Well done, the number I thought of was: %d.\n", number);
+			break;
+		}
+                else if (input > 10 || input < 0)
+		{
+			printf("please enter a number between 0 and 10\n");
+			continue;
+
+		}
+		else if (input < number)
+		{
+			printf("go higher\n");
+			continue;
+
+		}
+		else if (input > number)
+		{
+			printf("go lower\n");
+			continue;
+
+		}
+
+
+	}
+}
