@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+
+#define max 53
+#define suitsize 5
+#define facesize 14
+
+void setupDeck(int deck[facesize], int suits[suitsize]);
+void shuffleDEck(int deck[facesize], int suits[suitsize]);
+int printDeck(int deck[facesize], int suits[suitsize]);
+
+int main()
+{   
+     int deck[facesize];
+     int suits[suitsize];
+     setupDeck(deck, suits);
+     printDeck(deck, suits);
+}
+
+
+
+void setupDeck(int deck[], int suits[])
+{
+    int i, j;
+    for (i = 1; i < facesize; i++)
+    {
+        deck[i] = i;
+    }
+    for (j = 1; j < suitsize; j++)
+    {
+        suits[j] = j;
+    }
+}
+void shuffleDeck(int deck[])
+{
+    for (int i = 1; i < 1000; i++)
+    {
+       int from = rand() % max;
+       int to = rand() % max;
+       int card = deck[from];
+       deck[from] = deck[to];
+       deck[to] = card;
+    }
+}
+
+int printDeck(int deck[], int suits[])
+{
+    for(int i = 1; i < facesize; i++)
+         printf("card: %d\n", deck[i]);
+    for(int j = 1; j < suitsize; j++)
+         printf("suit: %d\n", suits[j]);
+}
