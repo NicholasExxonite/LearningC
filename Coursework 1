@@ -1,54 +1,184 @@
+typedef struct card{
+  char suit;
+  int face;
+}card;
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#define max 52
+#define nsuit 4
+#define nface 13
+void initializeDeckOne(struct card deck[max], int deckOneFace, int deckOneSuit);
 
-#define max 53
-#define suitsize 5
-#define facesize 14
+int main() {
+  struct card deck[max];
+ int deckOneFace = 1;
+ int deckOneSuit = 0;
 
-void setupDeck(int deck[facesize], int suits[suitsize]);
-void shuffleDEck(int deck[facesize], int suits[suitsize]);
-int printDeck(int deck[facesize], int suits[suitsize]);
+ for(int i = 0; i < max; i++){
+   deck[i].suit = deckOneSuit;
 
-int main()
-{   
-     int deck[facesize];
-     int suits[suitsize];
-     setupDeck(deck, suits);
-     printDeck(deck, suits);
-}
+   if (deckOneSuit == 0)
+   {
+     deck[i].suit = 'H';
+   }
+  else if (deckOneSuit == 1)
+   {
+     deck[i].suit = 'C';
+   }
+   else if (deckOneSuit == 2)
+   {
+     deck[i].suit = 'D';
+   }
+   else if (deckOneSuit == 3)
+   {
+     deck[i].suit = 'S';
+   }
+   deckOneSuit++;
+   if(deckOneSuit > nface){
+     deckOneSuit -= nface;
+   }
+   deck[i].face = deckOneFace;
+   deckOneFace ++;
+   if(deckOneFace > 13){
+     deckOneFace -= 13;
+   }
+ }
 
 
+  int i, j;
+  for(i = 0; i < nsuit; i++)
+  {
+    for(j = 0; j < nface; j++)
+      {
+        printf("%d%c ", deck[j].face, deck[i].suit);
+      }
+  }
 
-void setupDeck(int deck[], int suits[])
-{
-    int i, j;
-    for (i = 1; i < facesize; i++)
-    {
-        deck[i] = i;
+  printf("\n");
+  int cardwanted;
+  printf("\nPlease enter the card you want from the deck: ");
+  scanf("%d", &cardwanted);
+
+  //print the wanted card from the user.
+  if(cardwanted == 13 || cardwanted == 26 || cardwanted == 39 || cardwanted == 52){
+    int temp = (cardwanted / 13) - 1;
+    printf("The card at position %d is %d%c.\n",cardwanted, deck[12].face, deck[temp].suit);
+  }
+  else{
+    printf("The card at position %d is %d%c.\n",cardwanted, deck[cardwanted%13].face - 1, deck[cardwanted/13].suit);
+  }
+
+  //print out the before n and after n possitions cards.
+  int cardBefore = cardwanted -1;
+  int cardAfter = cardwanted;
+  if (cardwanted == 1){
+    printf("the card in the possition before %d is %d%c.\n", cardwanted, deck[51].face, deck[51/13].suit);
+    printf("the card in the possition after %d is %d%c.\n", cardwanted, deck[cardAfter].face, deck[cardAfter/13].suit);
+  }
+  else if (cardwanted == 52){
+    printf("the card in the possition before %d is %d%c.\n", cardwanted, deck[cardBefore-1].face, deck[cardBefore/13].suit);
+    printf("the card in the possition after %d is %d%c.\n", cardwanted, deck[0].face, deck[0/13].suit);
+  }
+  else{
+    printf("the card in the possition before %d is %d%c.\n", cardwanted, deck[cardBefore-1].face, deck[cardBefore/13].suit);
+    printf("the card in the possition after %d is %d%c.\n", cardwanted, deck[cardAfter].face, deck[cardAfter/13].suit);
+  }
+  printf("\n");
+  //variebles to jump 1 and 3 possitions for the ordering.
+  int deckTwosuit = 0;
+  int deckTwoface = 1;
+  //initialize and fill the Si Stebbins order Deck.
+  struct card deckTwo[max];
+  for(int i = 0; i < max; i++){
+    if(deckTwosuit == 0){
+      deckTwo[i].suit = 'C';
     }
-    for (j = 1; j < suitsize; j++)
-    {
-        suits[j] = j;
+    else if(deckTwosuit == 1){
+      deckTwo[i].suit = 'H';
     }
-}
-void shuffleDeck(int deck[])
-{
-    for (int i = 1; i < 1000; i++)
-    {
-       int from = rand() % max;
-       int to = rand() % max;
-       int card = deck[from];
-       deck[from] = deck[to];
-       deck[to] = card;
+    else if(deckTwosuit == 2){
+      deckTwo[i].suit = 'S';
     }
-}
+    else if(deckTwosuit == 3){
+      deckTwo[i].suit = 'D';
+    }
+    //deckTwo[i].suit = deckTwosuit;
+    deckTwosuit++;
+    if(deckTwosuit >3){
+      deckTwosuit -=4;
+    }
+    deckTwo[i].face = deckTwoface;
+    deckTwoface += 3;
+    if(deckTwoface > 13){
+      deckTwoface -= 13;
+    }
+  }
+  //print the Si Stebbins order Deck.
+  for(int i = 0; i < max; i++){
+    printf("%d%c ", deckTwo[i].face, deckTwo[i].suit);
+  }
+  int newcard =0;
+  printf("\n\nPlease enter a new card you want from the deck: ");
+  scanf("%d", &newcard);
+  printf("The card at positon %d is %d%c.\n",newcard, deckTwo[newcard-1].face, deckTwo[newcard-1].suit);
 
-int printDeck(int deck[], int suits[])
-{
-    for(int i = 1; i < facesize; i++)
-         printf("card: %d\n", deck[i]);
-    for(int j = 1; j < suitsize; j++)
-         printf("suit: %d\n", suits[j]);
+  int temp = newcard-2;
+  int temptwo = newcard;
+  if(newcard == 1){
+      printf("The card before is:%d%c\nThe card after is:%d%c\n", deckTwo[51].face, deckTwo[51].suit, deckTwo[temptwo].face, deckTwo[temptwo].suit);
+  }
+  else if(newcard == 52){
+      printf("The card before is:%d%c\nThe card after is:%d%c\n", deckTwo[temp].face, deckTwo[temp].suit, deckTwo[0].face, deckTwo[0].suit);
+  }
+  else{
+      printf("The card before is:%d%c\nThe card after is:%d%c\n", deckTwo[temp].face, deckTwo[temp].suit, deckTwo[temptwo].face, deckTwo[temptwo].suit);
+  }
+  //split the deck in half and change the top/bottom halves.
+  //that whole thing is just a bit of a mess, had to re-write it a dozen of times to get the logic down..
+  card *ptr = deckTwo + newcard;
+  card *ptrTwo = ptr - 1;
+  struct card firsthalf[max - (max-(newcard-1))], secondhalf[newcard];
+  memcpy(firsthalf, ptrTwo, (max-(newcard-1))*sizeof(struct card));
+  memcpy(secondhalf, deckTwo, newcard * sizeof(struct card));
+  struct card newDeckTwo[max];
+  card *newPtr = newDeckTwo + (max-(newcard-1));
+  memcpy(newDeckTwo, firsthalf, (max-(newcard-1))*sizeof(struct card));
+  memcpy(newPtr, secondhalf, newcard*sizeof(struct card));
+  printf("\n" );
+  //print the new deck
+  for(int i = 0; i < max; i ++){
+    printf("%d%c ", newDeckTwo[i].face, newDeckTwo[i].suit);
+  }
+
+  printf("\nThe card at the top of the deck is now %d%c", newDeckTwo[51].face, newDeckTwo[51].suit);
+  //initialize the riffled deck
+  struct card trueRiffleDeck[104];
+  int even = 0, odd = 0;
+  for (int i = 0; i < 104; i ++){
+    if(i % 2 == 0){
+      trueRiffleDeck[i].face = deckTwo[even].face;
+      trueRiffleDeck[i].suit = deckTwo[even].suit;
+      even++;
+    }
+    else if(i % 2 == 1){
+      trueRiffleDeck[i].face = deck[odd%13].face;
+      trueRiffleDeck[i].suit = deck[odd/13].suit;
+      odd++;
+    }
+  }
+
+  printf("\n\nNew combined riffled out deck:\n");
+  //print the riffled deck
+  for(int i = 0; i < 104; i++){
+    printf("%d%c ", trueRiffleDeck[i].face, trueRiffleDeck[i].suit);
+  }
+
+  int newRiffleCard;
+  printf("\n\nPlease enter a new card you want from the perfectly riffled out deck: ");
+  scanf("%d", &newRiffleCard);
+  printf("\nThe card at position %d from the riffled out deck is %d%c", newRiffleCard, trueRiffleDeck[newRiffleCard-1].face, trueRiffleDeck[newRiffleCard-1].suit);
+
 }
